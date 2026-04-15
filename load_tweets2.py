@@ -56,7 +56,6 @@ def remove_nulls(s):
 #    ;
 #    ''')
 #    res = connection.execute(sql,{'url':url}).first()
-#
     # when no conflict occurs, then the query above inserts a new row in the url table and returns id_urls in res[0];
     # when a conflict occurs, then the query above does not insert or return anything;
     # we need to run a select statement to put the already existing id_urls into res[0]
@@ -108,7 +107,7 @@ def insert_tweet(connection,tweet):
         # if tweet['user']['url'] is None:
         #    user_id_urls = None
         # else:
-        #    user_id_urls = get_id_urls(tweet['user']['url'], connection)
+        #     user_id_urls = get_id_urls(tweet['user']['url'], connection)
 
         # create/update the user
         sql = sqlalchemy.sql.text('''
@@ -325,6 +324,7 @@ def insert_tweet(connection,tweet):
             sql=sqlalchemy.sql.text('''
                 INSERT INTO tweet_media (id_tweets, url, type)
                 VALUES (:id_tweets, :url, :type)
+                ON CONFLICT DO NOTHING
             ''')
             connection.execute(sql, {
                 'id_tweets': tweet['id'],
